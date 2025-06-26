@@ -4,10 +4,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { CoursesModule } from './courses/courses.module';
 import { UsersModule } from './users/users.module';
+import { ResultsModule } from './results/results.module';
 import { ModulesModule } from './modules/modules.module';
 import { LessonsModule } from './lessons/lessons.module';
-import { AssignmentsModule } from './assignments/assignments.module';
-import { ResultsModule } from './results/results.module';
 
 @Module({
   imports: [
@@ -20,7 +19,7 @@ import { ResultsModule } from './results/results.module';
         port: 5432,
         username: 'postgres',
         password: '1235',
-        database: 'oquv_platforma',
+        database: 'imtihon',
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
       }),
@@ -29,10 +28,9 @@ import { ResultsModule } from './results/results.module';
     AuthModule,
     CoursesModule,
     UsersModule,
-    ModulesModule,
-    LessonsModule,
-    AssignmentsModule,
     ResultsModule,
+    ModulesModule,
+    LessonsModule
   ],
 })
 export class AppModule {}

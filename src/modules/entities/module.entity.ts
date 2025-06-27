@@ -3,7 +3,7 @@ import { Lesson } from "src/lessons/entities/lesson.entity";
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
 
 @Entity()
-export class Module {
+export class Madule {
   @PrimaryGeneratedColumn()
   id: number;
 

@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+// lessons/lessons.controller.ts
+import { Controller, Post, Get, Patch, Delete, Param, Body } from '@nestjs/common';
 import { LessonsService } from './lessons.service';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
@@ -8,8 +9,8 @@ export class LessonsController {
   constructor(private readonly lessonsService: LessonsService) {}
 
   @Post()
-  create(@Body() createLessonDto: CreateLessonDto) {
-    return this.lessonsService.create(createLessonDto);
+  create(@Body() dto: CreateLessonDto) {
+    return this.lessonsService.create(dto);
   }
 
   @Get()
@@ -23,8 +24,8 @@ export class LessonsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLessonDto: UpdateLessonDto) {
-    return this.lessonsService.update(+id, updateLessonDto);
+  update(@Param('id') id: string, @Body() dto: UpdateLessonDto) {
+    return this.lessonsService.update(+id, dto);
   }
 
   @Delete(':id')

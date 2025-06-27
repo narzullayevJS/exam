@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Put,
+} from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
@@ -11,29 +21,37 @@ import { RolesGuard } from 'src/auth/guards/RolesGuard';
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
-@Post()
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('admin')
-async create(@Body() courseDto: CreateCourseDto): Promise<Course> {
-  return this.coursesService.create(courseDto);
-}
+  @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  async create(@Body() courseDto: CreateCourseDto): Promise<Course> {
+    return this.coursesService.create(courseDto);
+  }
 
-   @Get()
+  @Get(':courseId/modules')
+  getModules(@Param('courseId') courseId: string) {
+    return this.coursesService.findModulesByCourseId(+courseId);
+  }
+
+  @Get()
   async findAll(): Promise<Course[]> {
     return this.coursesService.findAll();
   }
 
-@Patch(':id')
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('admin')
-async update(@Param('id') id: string, @Body() courseDto: UpdateCourseDto): Promise<Course | null> {
-  return this.coursesService.update(+id, courseDto);
-}
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  async update(
+    @Param('id') id: string,
+    @Body() courseDto: UpdateCourseDto,
+  ): Promise<Course | null> {
+    return this.coursesService.update(+id, courseDto);
+  }
 
-@UseGuards(JwtAuthGuard, RolesGuard)
-@Roles('admin')
-@Delete(':id')
-async delete(@Param('id') id: string): Promise<{ message: string }> {
-  return this.coursesService.delete(+id);
-}
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<{ message: string }> {
+    return this.coursesService.delete(+id);
+  }
 }

@@ -21,6 +21,13 @@ export class CoursesService {
     return this.coursesRepository.find();
   }
 
+  findModulesByCourseId(courseId: number) {
+    return this.coursesRepository.findOne({
+      where: { id: courseId },
+      relations: ['modules'],
+    });
+  }
+
   async update(id: number, courseDto: UpdateCourseDto): Promise<Course | null> {
     const existingCourse = await this.coursesRepository.findOne({ where: { id } });
     if (!existingCourse) {

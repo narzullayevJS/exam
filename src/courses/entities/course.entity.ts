@@ -1,6 +1,7 @@
 // course.entity.ts
 
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Module } from '../../modules/entities/module.entity';
 
 @Entity()
 export class Course {
@@ -24,4 +25,9 @@ export class Course {
 
   @Column()
   level: string;
+
+  @OneToMany(() => Module, (module) => module.course)
+  modules: Module[];
+
+
 }

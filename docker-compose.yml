@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: nest-dev
+    ports:
+      - "3333:3333"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run start:dev
+  postgres: 
+    image: postgres
+    environment:
+      POSTGRES_DB: final_imtihon
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1235
+    ports:
+      - "5433:5432"

@@ -5,9 +5,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Assignment } from 'src/assignments/entities/assignment.entity'; // import qilish muhim
+import { Madule } from 'src/modules/entities/module.entity';
+import { Enrollment } from 'src/enrollments/entities/enrollment.entity';
 
 export enum UserRole {
   STUDENT = 'student',
@@ -38,12 +41,18 @@ export class User {
   })
   created_at: Date;
 
-  @OneToMany(() => Assignment, (assignment) => assignment.student)
-  assignments: Assignment[];
-    enrollments: any;
+ @ManyToOne(() => Madule, (module) => module.assignments)
+  module: Madule;
 
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 12);
   }
+
+  @OneToMany(() => Assignment, (assignment) => assignment.student)
+  assignments: Assignment[];
+
+
+  @OneToMany(() => Enrollment, (enrollment) => enrollment.student)
+enrollments: Enrollment[];
 }

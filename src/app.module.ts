@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { CoursesModule } from './courses/courses.module';
-import { UsersModule } from './users/users.module';
 import { ResultsModule } from './results/results.module';
 import { ModulesModule } from './modules/modules.module';
 import { LessonsModule } from './lessons/lessons.module';
@@ -28,7 +27,6 @@ TypeOrmModule.forRootAsync({
 }),
     AuthModule,
     CoursesModule,
-    UsersModule,
     ResultsModule,
     ModulesModule,
     LessonsModule,

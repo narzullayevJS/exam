@@ -1,30 +1,27 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from 'typeorm';
-import { User } from 'src/users/entities/user.entity'; // foydalanuvchi modeli
-import { Madule } from 'src/modules/entities/module.entity'; // kurs moduli
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
+import { Madule } from 'src/modules/entities/module.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity()
 export class Assignment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.assignments)
-  student: User;
+  @Column()
+  userId: number;
 
-  @ManyToOne(() => Madule, (module) => module.assignments)
-  module: Madule;
-
-  @Column('text')
-  answer: string;
-
-  @Column({ type: 'int', nullable: true })
-  score: number;
-
-  @Column({ default: 'pending' })
-  status: 'pending' | 'graded';
+  @Column()
+  content: string;
 
   @Column({ nullable: true })
-  gradedBy: string;
+  fileUrl: string;
 
   @CreateDateColumn()
   submittedAt: Date;
+
+  @ManyToOne(() => Madule, (module) => module.id, { eager: false })
+  module: Madule;
+
+    @ManyToOne(() => User, (user) => user.assignments)
+  student: User; // 🟢 Mana shu bo‘lishi shart!
 }

@@ -4,6 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "ty
 
 @Entity()
 export class Madule {
+  [x: string]: any;
   @PrimaryGeneratedColumn()
   id: number;
 

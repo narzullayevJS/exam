@@ -4,8 +4,10 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Assignment } from 'src/assignments/entities/assignment.entity'; // import qilish muhim
 
 export enum UserRole {
   STUDENT = 'student',
@@ -35,6 +37,10 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP',
   })
   created_at: Date;
+
+  @OneToMany(() => Assignment, (assignment) => assignment.student)
+  assignments: Assignment[];
+    enrollments: any;
 
   @BeforeInsert()
   async hashPassword() {

@@ -20,23 +20,24 @@ export class CoursesService {
   async findAll(): Promise<Course[]> {
     return this.coursesRepository.find();
   }
+findModulesByCourseId(courseId: string) {
+  return this.coursesRepository.findOne({
+    where: { id: courseId },
+    relations: ['modules'],
+  });
+}
 
-  findModulesByCourseId(courseId: number) {
-    return this.coursesRepository.findOne({
-      where: { id: courseId },
-      relations: ['modules'],
-    });
+
+async update(id: string, courseDto: UpdateCourseDto): Promise<Course | null> {
+  const course = await this.coursesRepository.findOne({ where: { id } });
+
+  if (!course) {
+    throw new NotFoundException(`ID ${id} ga teng bo‘lgan kurs topilmadi`);
   }
 
-  async update(id: number, courseDto: UpdateCourseDto): Promise<Course | null> {
-    const existingCourse = await this.coursesRepository.findOne({ where: { id } });
-    if (!existingCourse) {
-      throw new NotFoundException(`Course with ID ${id} not found`);
-    }
-
-    await this.coursesRepository.update(id, courseDto);
-    return this.coursesRepository.findOne({ where: { id } });
-  }
+  await this.coursesRepository.update(id, courseDto);
+  return this.coursesRepository.findOne({ where: { id } });
+}
 
   async delete(id: number): Promise<{ message: string }> {
     const result = await this.coursesRepository.delete(id);

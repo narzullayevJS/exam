@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Assignment } from './entities/assignment.entity';
+import { Repository } from 'typeorm';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
-import { UpdateAssignmentDto } from './dto/update-assignment.dto';
+import { User } from 'src/users/entities/user.entity';
+import { Madule } from 'src/modules/entities/module.entity';
 
 @Injectable()
 export class AssignmentsService {
-  create(createAssignmentDto: CreateAssignmentDto) {
-    return 'This action adds a new assignment';
-  }
+  constructor(
+    @InjectRepository(Assignment)
+    private assignmentRepo: Repository<Assignment>,
 
-  findAll() {
-    return `This action returns all assignments`;
-  }
+    @InjectRepository(Madule)
+    private moduleRepo: Repository<Madule>,
+  ) {}
 
-  findOne(id: number) {
-    return `This action returns a #${id} assignment`;
-  }
+  async create(moduleId: number, dto: CreateAssignmentDto, student: User) {
+    const module = await this.moduleRepo.findOneByOrFail({ id: moduleId });
 
-  update(id: number, updateAssignmentDto: UpdateAssignmentDto) {
-    return `This action updates a #${id} assignment`;
-  }
+    const assignment = this.assignmentRepo.create({
+      answer: dto.answer,
+      module,
+      student,
+      status: 'pending',
+    });
 
-  remove(id: number) {
-    return `This action removes a #${id} assignment`;
+    return this.assignmentRepo.save(assignment);
   }
 }

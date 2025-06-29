@@ -25,7 +25,7 @@ export class ModulesService {
 
     const newModule = this.moduleRepo.create({
       title,
-      course, // bog'layapmiz
+      course, 
     });
 
     return this.moduleRepo.save(newModule);

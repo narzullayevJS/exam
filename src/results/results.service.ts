@@ -1,26 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { CreateResultDto } from './dto/create-result.dto';
-import { UpdateResultDto } from './dto/update-result.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Assignment } from 'src/assignments/entities/assignment.entity';
+import { Repository } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ResultsService {
-  create(createResultDto: CreateResultDto) {
-    return 'This action adds a new result';
-  }
+  constructor(
+    @InjectRepository(Assignment)
+    private assignmentRepo: Repository<Assignment>,
+  ) {}
 
-  findAll() {
-    return `This action returns all results`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} result`;
-  }
-
-  update(id: number, updateResultDto: UpdateResultDto) {
-    return `This action updates a #${id} result`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} result`;
+  async findForUser(user: User) {
+    return this.assignmentRepo.find({
+      where: { student: { id: user.id } },
+      relations: ['module'],
+    });
   }
 }

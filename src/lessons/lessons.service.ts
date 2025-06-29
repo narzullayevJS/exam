@@ -29,25 +29,34 @@ export class LessonsService {
     return this.lessonRepo.find({ relations: ['module'] });
   }
 
-  async findOne(id: number): Promise<Lesson> {
-    const lesson = await this.lessonRepo.findOne({ where: { id }, relations: ['module'] });
-    if (!lesson) throw new NotFoundException(`Lesson with ID ${id} not found`);
-    return lesson;
+async findOne(id: string): Promise<Lesson> {
+  const lesson = await this.lessonRepo.findOne({
+    where: { id },
+    relations: ['module'],
+  });
+
+  if (!lesson) {
+    throw new NotFoundException(`ID ${id} bo‘yicha dars topilmadi`);
   }
 
-  async update(id: number, dto: UpdateLessonDto): Promise<Lesson> {
-    const lesson = await this.lessonRepo.findOne({ where: { id } });
-    if (!lesson) throw new NotFoundException(`Lesson with ID ${id} not found`);
+  return lesson;
+}
 
-    if (dto.moduleId) {
-      const module = await this.moduleRepo.findOne({ where: { id: dto.moduleId } });
-      if (!module) throw new NotFoundException(`Module with ID ${dto.moduleId} not found`);
-      lesson.module = module;
-    }
 
-    Object.assign(lesson, dto);
-    return this.lessonRepo.save(lesson);
+async update(id: string, dto: UpdateLessonDto): Promise<Lesson> {
+  const lesson = await this.lessonRepo.findOne({ where: { id } });
+  if (!lesson) throw new NotFoundException(`ID ${id} bo‘yicha dars topilmadi`);
+
+  if (dto.moduleId) {
+    const module = await this.moduleRepo.findOne({ where: { id: dto.moduleId } });
+    if (!module) throw new NotFoundException(`ID ${dto.moduleId} bo‘yicha modul topilmadi`);
+    lesson.module = module;
   }
+
+  Object.assign(lesson, dto);
+  return this.lessonRepo.save(lesson);
+}
+
 
   async remove(id: number): Promise<{ message: string }> {
     const result = await this.lessonRepo.delete(id);

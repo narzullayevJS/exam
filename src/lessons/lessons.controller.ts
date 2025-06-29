@@ -20,12 +20,12 @@ export class LessonsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.lessonsService.findOne(+id);
+    return this.lessonsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateLessonDto) {
-    return this.lessonsService.update(+id, dto);
+    return this.lessonsService.update(id, dto);
   }
 
   @Delete(':id')

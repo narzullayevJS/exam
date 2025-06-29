@@ -7,5 +7,5 @@ export class CreateModuleDto {
 
   @IsNumber()
   @IsNotEmpty()
-  courseId: number;
+  courseId: string;
 }

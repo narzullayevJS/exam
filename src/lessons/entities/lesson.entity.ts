@@ -3,7 +3,7 @@ import { Madule } from '../../modules/entities/module.entity';
 @Entity()
 export class Lesson {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column()
   title: string;

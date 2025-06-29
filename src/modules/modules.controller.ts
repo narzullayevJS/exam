@@ -16,4 +16,4 @@ export class ModulesController {
   getLessons(@Param('moduleId') moduleId: string) {
     return this.modulesService.findLessonsByModuleId(+moduleId);
   }
-}
+} 

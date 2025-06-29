@@ -1,12 +1,13 @@
 // course.entity.ts
 
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
 import { Madule } from '../../modules/entities/module.entity';
+import { Enrollment } from 'src/enrollments/entities/enrollment.entity';
 
 @Entity()
 export class Course {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column()
   name: string;
@@ -28,4 +29,7 @@ export class Course {
 
   @OneToMany(() => Madule, module => module.course, { cascade: true })
   modules: Madule[];
+
+    @ManyToOne(() => Enrollment, enrollment => enrollment.course)
+    enrollment: Enrollment;
 }

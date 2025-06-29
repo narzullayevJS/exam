@@ -30,7 +30,7 @@ export class CoursesController {
 
   @Get(':courseId/modules')
   getModules(@Param('courseId') courseId: string) {
-    return this.coursesService.findModulesByCourseId(+courseId);
+    return this.coursesService.findModulesByCourseId(courseId);
   }
 
   @Get()
@@ -45,7 +45,7 @@ export class CoursesController {
     @Param('id') id: string,
     @Body() courseDto: UpdateCourseDto,
   ): Promise<Course | null> {
-    return this.coursesService.update(+id, courseDto);
+    return this.coursesService.update(id, courseDto);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)

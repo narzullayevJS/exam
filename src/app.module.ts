@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { ResultsModule } from './results/results.module';
 import { ModulesModule } from './modules/modules.module';
 import { LessonsModule } from './lessons/lessons.module';
+import { EnrollmentsModule } from './enrollments/enrollments.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ TypeOrmModule.forRootAsync({
     UsersModule,
     ResultsModule,
     ModulesModule,
-    LessonsModule
+    LessonsModule,
+    EnrollmentsModule
   ],
 })
 export class AppModule {}

@@ -1,34 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+// assignments.controller.ts
+import { Controller, Post, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { AssignmentsService } from './assignments.service';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
-import { UpdateAssignmentDto } from './dto/update-assignment.dto';
+import { CurrentUser } from '../auth/decarator/current-user.decorator';
+import { User } from '../users/entities/user.entity';
 
-@Controller('assignments')
+@Controller('modules/:moduleId/assignment') 
 export class AssignmentsController {
-  constructor(private readonly assignmentsService: AssignmentsService) {}
+  constructor(private readonly assignmentService: AssignmentsService) {}
 
   @Post()
-  create(@Body() createAssignmentDto: CreateAssignmentDto) {
-    return this.assignmentsService.create(createAssignmentDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.assignmentsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.assignmentsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAssignmentDto: UpdateAssignmentDto) {
-    return this.assignmentsService.update(+id, updateAssignmentDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.assignmentsService.remove(+id);
+  create(
+    @Param('moduleId', ParseIntPipe) moduleId: number,
+    @Body() body: CreateAssignmentDto,
+    @CurrentUser() user: User,
+  ) {
+    return this.assignmentService.create(moduleId, body, user);
   }
 }
